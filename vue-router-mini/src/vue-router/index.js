@@ -5,13 +5,12 @@ class VueRouter {
 		this.$options = options;
 		this.routeMap = {};
 
-		this.app = new Vue({ data: { current: '/' } });
+		Vue.util.defineReactive(this, 'current', '/');
 	}
 
 	init() {
 		this.createRouterMap();
 		this.bindEvents();
-		this.initComponents();
 	}
 
 	createRouterMap() {
@@ -25,28 +24,7 @@ class VueRouter {
 	}
 
 	onHashChange() {
-		this.app.current = window.location.hash.slice(1) || '/';
-	}
-
-	initComponents() {
-		Vue.component('router-link', {
-			props: {
-				to: String,
-			},
-			render(h) {
-				return h('a', { attrs: { href: `#${this.to}` } }, [
-					this.$slots.default,
-				]);
-			},
-		});
-
-		Vue.component('router-view', {
-			functional: true,
-			render(h, { parent }) {
-				const router = parent.$router;
-				return h(router.routeMap[router.app.current].component);
-			},
-		});
+		this.current = window.location.hash.slice(1) || '/';
 	}
 }
 
@@ -60,6 +38,24 @@ VueRouter.install = function(_Vue) {
 				Vue.prototype.$router = router;
 				router.init();
 			}
+		},
+	});
+
+	Vue.component('router-link', {
+		props: {
+			to: String,
+		},
+		render(h) {
+			return h('a', { attrs: { href: `#${this.to}` } }, [
+				this.$slots.default,
+			]);
+		},
+	});
+
+	Vue.component('router-view', {
+		render(h) {
+			const { current, routeMap } = this.$router;
+			return h(routeMap[current].component || null);
 		},
 	});
 };
