@@ -1,3 +1,6 @@
+import Link from './components/link';
+import View from './components/view';
+
 let Vue;
 
 class VueRouter {
@@ -5,11 +8,14 @@ class VueRouter {
 		this.$options = options;
 		this.routeMap = {};
 
-		Vue.util.defineReactive(this, 'current', '/');
+		this.current = window.location.hash.slice(1) || '/';
+		Vue.util.defineReactive(this, 'matched', []);
+
+		this.match();
 	}
 
 	init() {
-		this.createRouterMap();
+		// this.createRouterMap();
 		this.bindEvents();
 	}
 
@@ -24,7 +30,28 @@ class VueRouter {
 	}
 
 	onHashChange() {
-		this.current = window.location.hash.slice(1) || '/';
+		this.current = window.location.hash.slice(1);
+		this.matched = [];
+		this.match();
+	}
+
+	match(routes) {
+		routes = routes || this.$options.routes;
+
+		for (const route of routes) {
+			if (route.path === '/' && this.current === '/') {
+				this.matched.push(route);
+				return;
+			}
+			if (route.path !== '/' && ~this.current.indexOf(route.path)) {
+				this.matched.push(route);
+				const children = route.children;
+				if (children && children.length) {
+					this.match(children);
+				}
+				return;
+			}
+		}
 	}
 }
 
@@ -41,23 +68,8 @@ VueRouter.install = function(_Vue) {
 		},
 	});
 
-	Vue.component('router-link', {
-		props: {
-			to: String,
-		},
-		render(h) {
-			return h('a', { attrs: { href: `#${this.to}` } }, [
-				this.$slots.default,
-			]);
-		},
-	});
-
-	Vue.component('router-view', {
-		render(h) {
-			const { current, routeMap } = this.$router;
-			return h(routeMap[current].component || null);
-		},
-	});
+	Vue.component('router-link', Link);
+	Vue.component('router-view', View);
 };
 
 export default VueRouter;

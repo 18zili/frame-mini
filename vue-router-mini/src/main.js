@@ -5,6 +5,7 @@ import VueRouter from './vue-router/index';
 
 import Home from './pages/home';
 import About from './pages/about';
+import Info from './pages/info';
 
 Vue.config.productionTip = false;
 
@@ -19,6 +20,12 @@ const router = new VueRouter({
 		{
 			path: '/about',
 			component: About,
+			children: [
+				{
+					path: '/about/info',
+					component: Info,
+				},
+			],
 		},
 	],
 });

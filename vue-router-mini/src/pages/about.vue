@@ -1,3 +1,6 @@
 <template>
-	<div>About Page</div>
+	<div>
+		About Page
+		<router-view></router-view>
+	</div>
 </template>
