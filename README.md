@@ -15,7 +15,7 @@
 -   [ ] vite
 -   [ ] vue1
     -   [ ] reactive
-    -   [ ]compiler
+    -   [ ] compiler
 -   [ ] vue3
     -   [ ] reactive
 -   [ ] webpack
