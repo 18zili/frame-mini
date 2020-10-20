@@ -5,6 +5,8 @@
 -   [x] [vue-router](https://github.com/18zili/frame-mini/blob/main/vue-router-mini/src/vue-router/index.js)
     -   [x] hash 路由
     -   [x] 路由嵌套
+    -   [x] router-link
+    -   [x] router-view
 -   [x] [vuex](https://github.com/18zili/frame-mini/blob/main/vuex-mini/src/vuex/index.js)
     -   [x] commit
     -   [x] state
@@ -13,10 +15,9 @@
     -   [x] mutations
     -   [x] dispatch
 -   [ ] vite
--   [ ] vue1
+-   [ ] vue
     -   [ ] reactive
     -   [ ] compiler
--   [ ] vue3
-    -   [ ] reactive
+-   [ ] vue3 reactive
 -   [ ] webpack
 -   [ ] react
