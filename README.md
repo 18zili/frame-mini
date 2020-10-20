@@ -15,9 +15,9 @@
     -   [x] mutations
     -   [x] dispatch
 -   [ ] vite
--   [ ] vue
-    -   [ ] reactive
-    -   [ ] compiler
+-   [x] vue
+    -   [x] reactive: Observe Wather
+    -   [x] compiler: v-text v-html
 -   [ ] vue3 reactive
 -   [ ] webpack
 -   [ ] react
