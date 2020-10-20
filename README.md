@@ -15,7 +15,7 @@
     -   [x] mutations
     -   [x] dispatch
 -   [ ] vite
--   [x] vue
+-   [x] [vue](https://github.com/18zili/frame-mini/blob/main/vue/vue.js)
     -   [x] reactive: Observe Wather
     -   [x] compiler: v-text v-html
 -   [ ] vue3 reactive
