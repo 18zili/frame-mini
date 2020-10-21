@@ -1,8 +1,12 @@
 function defineReactive(obj, key, val) {
 	observe(val);
 
+	const dep = new Dep();
+
 	Object.defineProperty(obj, key, {
 		get() {
+			Dep.target && dep.addDep(Dep.target);
+
 			return val;
 		},
 		set(newVal) {
@@ -10,7 +14,7 @@ function defineReactive(obj, key, val) {
 				val = newVal;
 				observe(newVal);
 
-				wathers.forEach((w) => w.update());
+				dep.notify();
 			}
 		},
 	});
@@ -130,17 +134,32 @@ class Compile {
 	}
 }
 
-const wathers = [];
 class Wather {
 	constructor(vm, key, fn) {
 		this.$vm = vm;
 		this.key = key;
 		this.fn = fn;
 
-		wathers.push(this);
+		Dep.target = this;
+		this.$vm[this.key];
+		Dep.target = null;
 	}
 
 	update() {
 		this.fn.call(this.$vm, this.$vm[this.key]);
+	}
+}
+
+class Dep {
+	constructor() {
+		this.deps = [];
+	}
+
+	addDep(dep) {
+		this.deps.push(dep);
+	}
+
+	notify() {
+		this.deps.forEach((dep) => dep.update());
 	}
 }
