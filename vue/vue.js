@@ -1,11 +1,40 @@
-function defineReactive(obj, key, val) {
-	observe(val);
+const arrayProto = Array.prototype;
+const arrayMethods = Object.create(arrayProto);
 
+const methodsToPatch = [
+	'push',
+	'pop',
+	'shift',
+	'unshift',
+	'sort',
+	'reverse',
+	'splice',
+];
+methodsToPatch.forEach((method) => {
+	const original = arrayProto[method];
+	arrayMethods[method] = function () {
+		const result = original.apply(this, arguments);
+
+		const ob = this.__ob__;
+		ob.dep.notify();
+
+		return result;
+	};
+});
+
+function defineReactive(obj, key, val) {
+	const childOb = observe(val);
 	const dep = new Dep();
 
 	Object.defineProperty(obj, key, {
 		get() {
-			Dep.target && dep.addDep(Dep.target);
+			if (Dep.target) {
+				dep.addDep(Dep.target);
+
+				if (childOb) {
+					childOb.dep.addDep(Dep.target);
+				}
+			}
 
 			return val;
 		},
@@ -25,7 +54,15 @@ function observe(obj) {
 		return;
 	}
 
-	new Observe(obj);
+	let ob;
+
+	if (obj.hasOwnProperty('__ob__')) {
+		ob = obj.__ob__;
+	} else {
+		ob = new Observe(obj);
+	}
+
+	return ob;
 }
 
 function proxy(vm) {
@@ -43,8 +80,12 @@ function proxy(vm) {
 
 class Observe {
 	constructor(value) {
+		this.dep = new Dep();
+		def(value, '__ob__', this);
+
 		if (Array.isArray(value)) {
-			// TODO: 数组响应式
+			value.__proto__ = arrayMethods;
+			value.forEach((val) => observe(val));
 		} else {
 			this.walk(value);
 		}
@@ -53,6 +94,15 @@ class Observe {
 	walk(obj) {
 		Object.keys(obj).forEach((key) => defineReactive(obj, key, obj[key]));
 	}
+}
+
+function def(obj, key, val) {
+	Object.defineProperty(obj, key, {
+		configruable: true,
+		enumerable: false,
+		writable: true,
+		value: val,
+	});
 }
 
 class Vue {

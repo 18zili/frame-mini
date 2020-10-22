@@ -18,6 +18,7 @@
 			<p>{{ counter }}</p>
 			<p v-text="counter"></p>
 			<p v-html="desc"></p>
+			<p>{{arr}}</p>
 		</div>
 		<script src="./vue.js"></script>
 		<script>
@@ -26,11 +27,15 @@
 				data: {
 					counter: 1,
 					desc: '<span style="color:red;">Vue 天下第一</span>',
+					arr: [1, 2],
 				},
 			});
 
 			setInterval(() => {
 				app.counter++;
+				if (app.arr.length < 10) {
+					app.arr.push(app.arr.length + 1);
+				}
 			}, 1000);
 		</script>
 	</body>

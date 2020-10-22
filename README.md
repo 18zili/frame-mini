@@ -16,7 +16,7 @@
     -   [x] dispatch
 -   [ ] vite
 -   [x] [vue](https://github.com/18zili/frame-mini/blob/main/vue/vue.js)
-    -   [x] reactive: Observe Wather
+    -   [x] reactive: object and array is reactive
     -   [x] compiler: v-text v-html
 -   [ ] vue3 reactive
 -   [ ] webpack
