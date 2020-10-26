@@ -16,9 +16,14 @@
 		<div id="app">
 			<h2>Vue Reactive + Compile</h2>
 			<p>{{ counter }}</p>
+			<button @click="onClick">add count</button>
 			<p v-text="counter"></p>
 			<p v-html="desc"></p>
 			<p>{{arr}}</p>
+
+			<h3>双向绑定：v-model</h3>
+			<input type="text" v-model="text" />
+			<p>{{ text }}</p>
 		</div>
 		<script src="./vue.js"></script>
 		<script>
@@ -28,11 +33,16 @@
 					counter: 1,
 					desc: '<span style="color:red;">Vue 天下第一</span>',
 					arr: [1, 2],
+					text: '',
+				},
+				methods: {
+					onClick() {
+						this.counter++;
+					},
 				},
 			});
 
 			setInterval(() => {
-				app.counter++;
 				if (app.arr.length < 10) {
 					app.arr.push(app.arr.length + 1);
 				}

@@ -151,11 +151,28 @@ class Compile {
 		const attrs = node.attributes;
 		Array.from(attrs).forEach((attr) => {
 			const { name, value } = attr;
-			if (name.startsWith('v-')) {
+			if (this.isDirective(name)) {
 				const dir = name.substring(2);
 				this[dir] && this[dir](node, value);
 			}
+			if (this.isEvent(name)) {
+				const dir = name.substring(1);
+				this.eventHandler(node, dir, value);
+			}
 		});
+	}
+
+	isDirective(name) {
+		return name.startsWith('v-');
+	}
+
+	isEvent(name) {
+		return name.startsWith('@');
+	}
+
+	eventHandler(node, dir, value) {
+		const fn = this.$vm.$options.methods[value];
+		node.addEventListener(dir, fn.bind(this.$vm));
 	}
 
 	update(node, exp, dir) {
@@ -181,6 +198,18 @@ class Compile {
 
 	htmlUpdater(node, value) {
 		node.innerHTML = value;
+	}
+
+	model(node, exp) {
+		this.update(node, exp, 'model');
+
+		node.addEventListener('input', (e) => {
+			this.$vm[exp] = e.target.value;
+		});
+	}
+
+	modelUpdater(node, value) {
+		node.value = value;
 	}
 }
 
