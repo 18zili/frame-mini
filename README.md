@@ -15,7 +15,7 @@
     -   [x] mutations
     -   [x] dispatch
 -   [ ] vite
--   [x] [vue](https://github.com/18zili/frame-mini/blob/main/vue/vue.js)
+-   [x] [vue](https://github.com/18zili/frame-mini/blob/main/vue-mini/vue.js)
     -   [x] reactive: object and array is reactive
     -   [x] compiler: v-text v-html v-model event
 -   [ ] vue3 reactive
