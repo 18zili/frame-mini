@@ -18,6 +18,6 @@
 -   [x] [vue](https://github.com/18zili/frame-mini/blob/main/vue-mini/vue.js)
     -   [x] reactive: object and array is reactive
     -   [x] compiler: v-text v-html v-model event
--   [ ] vue3 reactive
+-   [x] [vue3 reactive](https://github.com/18zili/frame-mini/blob/main/vue3/02-reactive.js)
 -   [ ] webpack
 -   [ ] react
