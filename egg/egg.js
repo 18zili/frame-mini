@@ -4,6 +4,7 @@ const {
 	initController,
 	initService,
 	loadConfig,
+	initSchedule
 } = require('./loader');
 
 class Egg {
@@ -16,6 +17,8 @@ class Egg {
 		this.$service = initService(this);
 		this.$router = initRouter(this);
 		this.$app.use(this.$router.routes());
+
+		initSchedule();
 	}
 
 	start(port) {

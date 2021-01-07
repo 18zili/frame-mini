@@ -4,6 +4,7 @@ module.exports = {
 		host: 'localhost',
 		database: 'test',
 		username: 'root',
-		password: '123456',
+		password: '123456'
 	},
+	middleware: ['logger']
 };

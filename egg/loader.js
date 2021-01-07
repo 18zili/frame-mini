@@ -61,6 +61,22 @@ function loadConfig(app) {
 				app.$db.sync();
 			});
 		}
+
+		if (config.middleware) {
+			config.middleware.forEach((mid) => {
+				const midPath = path.resolve(__dirname, 'middleware', mid);
+				console.log(app.$app.use);
+				console.log(midPath);
+				app.$app.use(require(midPath));
+			});
+		}
+	});
+}
+
+const schedule = require('node-schedule');
+function initSchedule() {
+	loadFile('schedule', (_, scheduleConfig) => {
+		schedule.scheduleJob(scheduleConfig.interval, scheduleConfig.handler);
 	});
 }
 
@@ -69,4 +85,5 @@ module.exports = {
 	initController,
 	initService,
 	loadConfig,
+	initSchedule
 };
